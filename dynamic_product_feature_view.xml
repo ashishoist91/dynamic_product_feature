@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_feature_config" name="Feature Configuration"
+            parent="base.menu_base_config" sequence="100" groups="base.group_sale_manager"/>
+        
+        <record model="ir.ui.view" id="view_feature_form">
+            <field name="name">feature_from</field>
+            <field name="model">feature</field>
+             <field name="arch" type="xml">
+                <form string="Feature">
+                    <sheet>
+                        <group>
+                            <field name='id' string='Feature ID' readonly='1'/>
+                            <field name='feature_category' required='1'/>
+                            <field name='name' required='1'/>
+                            <field name='code' readonly='1'/>
+                            <field name='product_field_id'/>
+                            <field name='product_feature_field_id'/>
+                        </group>
+                    </sheet>
+                </form>
+             </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_feature_tree">
+            <field name="name">feature_tree</field>
+            <field name="model">feature</field>
+             <field name="arch" type="xml">
+                <tree string="Feature">
+                    <field name='id' string='Feature ID'/>
+                    <field name='feature_category'/>
+                    <field name='name'/>
+                </tree>
+             </field>
+        </record>
+        
+        <record id="action_feature_record" model="ir.actions.act_window">
+            <field name="name">Feature</field>
+            <field name="res_model">feature</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">Click to start a new Feature.</p>
+              <p>New Feature will used in product </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_feature"
+    	name="Feature" 
+        parent="menu_feature_config"
+        sequence="5" action="action_feature_record"/>
+        
+        <!--<record model="ir.ui.view" id="view_feature_value_form">
+            <field name="name">feature_value_from</field>
+            <field name="model">feature.value</field>
+             <field name="arch" type="xml">
+                <form string="Feature Value">
+                    <sheet>
+                        <group>
+                            <field name='id' string='Feature Value ID' readonly='1'/>
+                            <field name='name' required='1'/>
+                            <field name='feature_id' required='1'/>
+                        </group>
+                    </sheet>
+                </form>
+             </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_features_value_tree">
+            <field name="name">features_value_tree</field>
+            <field name="model">feature.value</field>
+             <field name="arch" type="xml">
+                <tree string="Feature Value">
+                    <field name='id' string='Feature Value ID'/>
+                    <field name='name'/>
+                    <field name='feature_id'/>
+                </tree>
+             </field>
+        </record>
+        
+        <record id="action_feature_value_record" model="ir.actions.act_window">
+            <field name="name">Feature Value</field>
+            <field name="res_model">feature.value</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">Click to start a new Feature Value.</p>
+              <p>New Feature Value will depend upon Feature </p>
+            </field>
+        </record>
+        
+        
+        <menuitem id="menu_feature_value"
+    	name="Feature Value" 
+        parent="menu_feature_config"
+        sequence="10" action="action_feature_value_record"/>
+        
+        
+        
+        <record model="ir.ui.view" id="view_feature_value_form">
+            <field name="name">feature_value_from</field>
+            <field name="model">feature.value</field>
+             <field name="arch" type="xml">
+                <form string="Feature Value">
+                    <sheet>
+                        <group>
+                            <field name='id' string='Feature Value ID' readonly='1'/>
+                            <field name='name' required='1'/>
+                            <field name='feature_id' required='1'/>
+                        </group>
+                    </sheet>
+                </form>
+             </field>
+        </record>-->
+        
+        
+        
+        
+        <record model="ir.ui.view" id="product_normal_form_view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Product Features">
+			<group>
+			    <field name='feature_category'/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <record id="product_search_form_view" model="ir.ui.view">
+            <field name="name">product.product.search</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                <field name="product_tmpl_id" position="after">
+                   <field name="feature_category" string="Feature Category"/>
+                </field>
+            </field>
+        </record>
+        
+        
+        
+    
+	
+    <record id="view_product_feature_search_wizard_from" model="ir.ui.view">
+        <field name="name">product.feature.search.wizard.form</field>
+        <field name="model">product.feature.search.wizard</field>
+        <field name="arch" type="xml">
+          <form string="Product Feature Search">
+            <sheet string="Product Feature Search">
+                <group>
+                    <field name='product_feature_category'/>
+                    <!--<field name='product_feature_category_id' invisible="1"/>-->
+                </group>
+                
+                <group string="LED Lighting" attrs="{'invisible': ['|',('product_feature_category','=','led_solar'),('product_feature_category','=','led_signage')]}">
+                    <group col="4" colspan="4" name="led_lighting">
+    
+                    </group>
+                </group>
+                <group string="LED Signage" attrs="{'invisible': ['|',('product_feature_category','=','led_lighting'),('product_feature_category','=','led_solar')]}">
+                    <group col="4" colspan="4" name="led_signage">
+    
+                    </group> 
+                </group>
+                
+                <group string="LED Solar" attrs="{'invisible': ['|',('product_feature_category','=','led_lighting'),('product_feature_category','=','led_signage')]}">
+                    <group col="4" colspan="4" name='led_solor'>
+    
+                    </group>	
+                </group>
+                <footer>
+                    <button name="search_product_feature" string="Search" type="object"/>
+                    Or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+              </sheet>
+          </form>
+        </field>
+      </record>
+     
+     
+     
+    <record id="action_product_feature_search_wizard" model="ir.actions.act_window" >
+        <field name="name">Product Feature Search</field>
+        <field name="res_model">product.feature.search.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id='menu_product_feature_search_wizard'
+        action='action_product_feature_search_wizard'
+        groups='base.group_system'
+        parent="base.menu_product" />
+    
+    
+    
+    <record id="view_product_create_wizard_from" model="ir.ui.view">
+      <field name="name">product.create.wizard.form</field>
+      <field name="model">product.create.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Product Create" version="7.0">
+            <separator string="message" colspan="6"/>
+            <field name="message" colspan="4" nolabel="1" readonly="1"/>															
+            <newline/>
+            <separator string="Product Name" colspan="6"/>
+            <field name="name" colspan="4" nolabel="1" placeholder="New product Name"/>															
+            <newline/>
+            <separator colspan="6"/>
+            <footer>
+                <button name="create_product" string="Create New Product" class="oe_highlight" type="object"/>
+		Or
+                <button special="cancel" class="oe_highlight" string="Cancel"/>
+            </footer>
+        </form>
+      </field>
+    </record>
+     
+    <!--<record id="action_product_create_wizard" model="ir.actions.act_window">
+         <field name="name">Message</field>
+         <field name="res_model">product.create.wizard</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">form</field>
+         <field name="view_id" ref="view_product_create_wizard_from" />
+         <field name="context">{}</field>
+         <field name="target">new</field>
+      </record>-->
+    
+        <record id="action_product_create_wizard" model="ir.actions.act_window">
+            <field name="name">Message</field>
+            <field name="res_model">product.create.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>
